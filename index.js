@@ -1,84 +1,107 @@
+const button = document.querySelectorAll('button');
+const rockBtn = document.querySelector('.rock');
+const paperBtn = document.querySelector('.paper');
+const scissorsBtn = document.querySelector('.scissors');
+const playerscore=document.querySelector('.playernum')
+const computerscore=document.querySelector('.compnum')
+const title=document.querySelector('.title')
+const compselection=document.querySelector('.compselection')
+const playerselection=document.querySelector('.playerselection')
+
+let playerSelection;
+let playerScore=0;
+let computerScore=0;
+
+function start(){
+    title.textContent='please pick an option'
+    button.forEach(but=>{
+        but.addEventListener('click',()=>{
+            playerSelection=String(but.getAttribute('class'))
+            game()
+        })
+    })
+};
+
+
 function choose(choices) {
     var index = Math.floor(Math.random() * choices.length);
     return choices[index];
-  }
-choice=['Rock', 'Paper', 'Scissors']
+  };
+choice=['rock', 'paper', 'scissors']
+rounds=[3,4,5,6,7,8,9]
+
 function getComputerChoice(){
     return choose(choice)
-}
-let playerScore=0;
-let computerScore=0;
+};
+roundNumber=choose(rounds)
+
+
 function playRound(playerSelection,computerSelection){
-    playerSelection=playerSelection.toLowerCase()
     computerSelection=computerSelection.toLowerCase()
+    compselection.textContent=computerSelection
+    playerselection.textContent=playerSelection
     if (playerSelection==='rock'&&computerSelection==='paper'){
          computerScore+=1
-        return 'you lose! paper beats rock'
+        title.textContent='you lose! paper beats rock'
     }
     else if (playerSelection==='paper'&&computerSelection==='rock'){
          playerScore+=1     
-        return 'you win! paper beats rock'  
+         title.textContent='you win! paper beats rock'  
         }
     else if (playerSelection==='scissors'&&computerSelection==='paper'){
          playerScore+=1
-        return 'you win! scissors beats paper'
+         title.textContent='you win! scissors beats paper'
         }
     else if (playerSelection==='paper'&&computerSelection==='scissors'){
          computerScore+=1
-         return 'you lose! scissors beats paper'
+         title.textContent= 'you lose! scissors beats paper'
         }
     else if (playerSelection==='scissors'&&computerSelection==='rock'){
          computerScore+=1
-         return 'you lose! rock beats scissors'
+         title.textContent='you lose! rock beats scissors'
         }
     else if (playerSelection==='rock'&&computerSelection==='scissors'){
          playerScore+=1
-        return 'you win! rock beats scissors'
+         title.textContent= 'you win! rock beats scissors'
     }
     else if (playerSelection===computerSelection){
-        return'tie'
+        return title.textContent='tie'
     }
-    else{
-         alert('please input a relevant value')
-         playerScore-=1
-         return 'penalty given'
-         
-    }
+    
     
 }
 
 
 function game(){
-    for (let i = 0; i < 5; i++) {
-    const playerSelection = prompt('Rock, Paper or Scissors','Rock');
     const computerSelection = getComputerChoice();
-    console.log(playRound(playerSelection, computerSelection));
+    playRound(playerSelection, computerSelection);
     console.log(playerScore,computerScore)
-    } 
-    if (playerScore===computerScore){
-        alert(`Tie with ${playerScore} points`)
+    playerscore.textContent=playerScore
+    computerscore.textContent=computerScore
+    if (playerScore===computerScore===roundNumber){
+        alert(`It's a tie`)
+        title.textContent=`It's a tie`
     }
-    else if(playerScore>computerScore){
-        alert(`you won by ${playerScore-computerScore} points`)
+    else if(playerScore===roundNumber){
+        alert(`Game Over! You win`)
+        title.textContent=`Game Over! You win`
     }
-    else if(playerScore<computerScore){
-        alert(`you lost by ${computerScore-playerScore} points`)
+    else if(computerScore===roundNumber){
+        alert(`Game Over! Computer Wins`)
+        title.textContent=`Game Over! Computer Wins`
     }
-    startGame()
 }
 
 function startGame(){
-    NewGame=prompt('start a new game? (yes or no)','yes')
-    switch(NewGame==='yes'){
+    NewGame=confirm(`start a new game? (yes or no) \n first to ${roundNumber} points`)
+    switch(NewGame){
         case true:
-            game()
+            start()
             break;
-        case null:
-            alert('game closed')
-            break; 
         case false:
             alert('game closed')
             break; 
     }
 }
-game()
+
+startGame()
