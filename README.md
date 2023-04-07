@@ -1,2 +1,2 @@
 # Rockpaperscissors
-rock paper scissors game
+A creative take on the age-old rock paper scissors game
